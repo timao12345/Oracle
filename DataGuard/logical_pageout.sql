@@ -1,0 +1,4 @@
+SELECT VALUE BYTES
+FROM V$LOGSTDBY_STATS
+WHERE NAME = 'bytes paged out'
+/

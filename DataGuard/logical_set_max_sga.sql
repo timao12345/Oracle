@@ -1,0 +1,4 @@
+begin
+  DBMS_LOGSTDBY.APPLY_SET('MAX_SGA',1500);
+end;
+/

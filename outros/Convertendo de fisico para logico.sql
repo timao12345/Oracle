@@ -1,0 +1,45 @@
+Convertendo de fisico para logico
+
+http://docs.oracle.com/cd/E11882_01/server.112/e41134/create_ls.htm#SBYDB4741
+
+
+
+No Standby
+ALTER DATABASE RECOVER MANAGED STANDBY DATABASE CANCEL;
+
+
+Primary Database: Logical Standby Role Initialization Parameters
+
+alter system set LOG_ARCHIVE_DEST_1='LOCATION=/u01/app/oracle/archive/orcl VALID_FOR=(ONLINE_LOGFILES,ALL_ROLES) DB_UNIQUE_NAME=orcl' scope=both;
+alter system set LOG_ARCHIVE_DEST_3='LOCATION=/u01/app/oracle/archive2/orcl VALID_FOR=(STANDBY_LOGFILES,STANDBY_ROLE) DB_UNIQUE_NAME=orcl' scope=both;
+alter system set LOG_ARCHIVE_DEST_STATE_3=ENABLE scope=both;
+
+Primary
+
+EXECUTE DBMS_LOGSTDBY.BUILD;
+
+SQL> SHUTDOWN IMMEDIATE;
+SQL> STARTUP MOUNT EXCLUSIVE; 
+
+ALTER DATABASE RECOVER TO LOGICAL STANDBY KEEP IDENTITY;
+
+
+Standby
+
+QL> SHUTDOWN;
+SQL> STARTUP MOUNT;
+
+
+
+alter system set  log_archive_dest_1='LOCATION=/u01/app/oracle/archive/stdby VALID_FOR=(ONLINE_LOGFILES,ALL_ROLES) DB_UNIQUE_NAME=stdby' scope=both;
+alter system set LOG_ARCHIVE_DEST_2='SERVICE=orcl ASYNC  VALID_FOR=(ONLINE_LOGFILES,PRIMARY_ROLE) DB_UNIQUE_NAME=orcl'
+alter system set  LOG_ARCHIVE_DEST_3='LOCATION=/u01/app/oracle/archive2/stdby VALID_FOR=(STANDBY_LOGFILES,STANDBY_ROLE)  DB_UNIQUE_NAME=stdby' scope=both;
+
+alter system set LOG_ARCHIVE_DEST_STATE_1=ENABLE
+alter system set LOG_ARCHIVE_DEST_STATE_2=ENABLE
+alter system set LOG_ARCHIVE_DEST_STATE_3=ENABLE
+
+
+ALTER DATABASE OPEN RESETLOGS;
+
+SQL>  ALTER DATABASE START LOGICAL STANDBY APPLY IMMEDIATE;

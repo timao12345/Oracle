@@ -1,0 +1,5 @@
+
+ SELECT t.OWNER, t.OBJECT_NAME, t.OBJECT_TYPE, t.STATISTIC_NAME, t.VALUE
+ FROM v$segment_statistics t
+ WHERE t.STATISTIC_NAME = 'ITL waits' 
+   AND t.VALUE > 0;

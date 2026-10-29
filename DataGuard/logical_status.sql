@@ -1,0 +1,16 @@
+COLUMN DICT_BEGIN FORMAT A10;
+rem SET NUMF 999999999999
+col file_name for a71
+set lines 255
+col SEQ# for 99999
+col THR# for 99999
+col timestamp for a20
+
+SELECT FILE_NAME, SEQUENCE# AS SEQ#, FIRST_CHANGE# AS FCHANGE#, 
+     NEXT_CHANGE# AS NCHANGE#, to_char(TIMESTAMP, 'dd-mon-rr hh24:mi:ss') timestamp, 
+     DICT_BEGIN AS BEG, DICT_END AS END, 
+     THREAD# AS THR# , applied
+FROM DBA_LOGSTDBY_LOG 
+WHERE TRUNC(TIMESTAMP) > SYSDATE - 2
+     ORDER BY SEQUENCE#;
+

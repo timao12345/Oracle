@@ -1,0 +1,55 @@
+-- procura profile
+col name for a35
+col CREATED for a35
+col LAST_MODIFIED for a35
+SELECT NAME, CREATED,LAST_MODIFIED,TYPE,STATUS,FORCE_MATCHING
+FROM DBA_SQL_PROFILES
+where LAST_MODIFIED > sysdate -1/24
+ORDER BY CREATED ASC;
+
+to_char(ELAPSED_TIME,'HH24:MI')
+
+
+col name for a35
+col CREATED for a35
+col LAST_MODIFIED for a35
+SELECT NAME, to_char(CREATED, 'DD-MON-YY HH24:MI:SS'),LAST_MODIFIED,TYPE,STATUS,FORCE_MATCHING,TYPE
+FROM DBA_SQL_PROFILES where NAME like '%7rrdmgstpkgbz%'
+ORDER BY CREATED ASC;
+
+SET lin 1000
+COL NAME FORMAT A40
+COL CREATED FORMAT a20
+COL STATUS FORMAT A10
+COL TYPE FORMAT A10
+COL SIGNATURE FORMAT 9999999999999999999999999
+SELECT NAME, 
+       to_char(CREATED,'dd/mm/yyyy hh24:mi:ss') as CREATED, 
+       STATUS, 
+       TYPE, 
+       SIGNATURE
+FROM DBA_SQL_PROFILES B
+WHERE SIGNATURE = 12486396382186351909 -- signature é gerada ao executar um coe
+ORDER BY CREATED;
+
+--Desabilita / Habilita profile:
+
+set serveroutput on
+ begin
+   dbms_sqltune.alter_sql_profile(name=>'SYS_SQLPROF_02990fe40a060000', attribute_name=>'STATUS',value=>'DISABLED');
+ end;
+/
+
+set serveroutput on
+ begin
+   dbms_sqltune.alter_sql_profile(name=>'SYS_SQLPROF_02990fe40a060000', attribute_name=>'STATUS',value=>'ENABLED');
+ end;
+/
+
+--Dropa profile:
+
+set serveroutput on
+ begin
+   dbms_sqltune.drop_sql_profile(name=>'coe_3vwmg6d199f90_3424242435');
+end;
+/

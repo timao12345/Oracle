@@ -1,0 +1,9 @@
+col COMPONENT_NAME for a50
+col COMPONENT_TYPE for a30
+col COMPONENT_STATUS for a20
+set pagesize 200
+set linesize 200
+select SC.COMPONENT_TYPE, SC.COMPONENT_NAME, SC.COMPONENT_STATUS
+from FND_SVC_COMPONENTS SC
+where SC.COMPONENT_NAME like 'W%'
+order by 1, 2;

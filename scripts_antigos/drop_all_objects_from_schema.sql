@@ -1,0 +1,1 @@
+select ' drop '||object_type|| ' ' || owner || '.' || object_name || ';' from dba_objects where owner='PRICES';

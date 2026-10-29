@@ -1,0 +1,1 @@
+CATALOG DEVICE TYPE 'sbt_tape' BACKUPPIECE  'nome_do_handle_no_rman' ;

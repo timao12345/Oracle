@@ -1,0 +1,54 @@
+--Caso existe schemas com as mesmas tabelas podemos verificar se existe diferença de linhas entre elas.
+--Para encontrar esta diferença de linhas entre direfentes schemas, via PL/SQL
+
+SET SERVEROUT ON
+SET LINES 500
+SET VERIFY OFF
+ 
+DECLARE
+    CURSOR TAB IS 
+        SELECT A.OWNER OWNER1, A.TABLE_NAME TABLE_NAME1, 
+               B.OWNER OWNER2, B.TABLE_NAME TABLE_NAME2
+        FROM DBA_TABLES A, DBA_TABLES B
+        WHERE A.TABLE_NAME = B.TABLE_NAME
+          AND A.OWNER = '&USER1' 
+          AND B.OWNER = '&USER2'
+        ORDER BY A.TABLE_NAME;
+    vQTN1 NUMBER;
+    vQTN2 NUMBER;  
+    vSQL VARCHAR2(1000);      
+BEGIN
+    FOR A IN TAB LOOP
+        vSQL := 'SELECT COUNT(1) FROM ' || A.OWNER1 || '.' || A.TABLE_NAME1;
+        EXECUTE IMMEDIATE vSQL INTO vQTN1;
+        
+        vSQL := 'SELECT COUNT(1) FROM ' || A.OWNER2 || '.' || A.TABLE_NAME2;
+        EXECUTE IMMEDIATE vSQL INTO vQTN2;
+        
+        DBMS_OUTPUT.PUT_LINE (	'OWNER 1: '  || RPAD(A.OWNER1, 10, ' ') ||';TABLE_NAME 1: '|| RPAD(A.TABLE_NAME1, 30, ' ')|| ';LINES: ' || RPAD(TO_CHAR(vQTN1), 10, ' ') || 
+								';OWNER 2: ' || RPAD(A.OWNER2, 10, ' ') ||';TABLE_NAME 2:' || RPAD(A.TABLE_NAME2, 30, ' ')||';LINES: '  || RPAD(TO_CHAR(vQTN2), 10, ' ') || 
+								';DIFERENCAS: ' || TO_CHAR(vQTN1 - vQTN2));
+    END LOOP;
+END;
+/
+
+--Com a estatística atualizadas podemos usar o select abaixo.
+
+COL OWNER1 FOR A10
+COL TABLE_NAME1 FOR A30
+COL NUM_ROWS1 FOR 9999999
+COL OWNER2 FOR A10
+COL TABLE_NAME2 FOR A30
+COL NUM_ROWS2 FOR 9999999
+SET PAGES 0
+SET LINES 500
+SET VERIFY OFF
+ 
+SELECT A.OWNER OWNER1, A.TABLE_NAME TABLE_NAME1, A.NUM_ROWS NUM_ROWS1, 
+       B.OWNER OWNER2, B.TABLE_NAME TABLE_NAME2, B.NUM_ROWS NUM_ROWS2,
+       A.NUM_ROWS - B.NUM_ROWS DIFERENCAS
+FROM DBA_TABLES A, DBA_TABLES B
+WHERE A.TABLE_NAME = B.TABLE_NAME
+  AND A.OWNER = '&USER1' 
+  AND B.OWNER = '&USER2'
+ORDER BY A.TABLE_NAME;

@@ -1,0 +1,1 @@
+select * from dba_rollback_segs where segment_name = '_SYSSMU5681_3321943331$';

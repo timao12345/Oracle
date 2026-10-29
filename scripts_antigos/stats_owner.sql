@@ -1,0 +1,19 @@
+|=============================|
+|   ESTATISTICS TABLES OWNER  |
+|=============================|
+
+-- Verificar estatística das tabelas do schema
+
+ALTER SESSION SET  NLS_DATE_FORMAT='DD/MM/YY:HH24:MI:SS';
+UNDEF OWNER
+SET LINES 900 PAGES 9999
+
+SELECT OWNER, 
+	TABLE_NAME, 
+	TABLESPACE_NAME, 
+	STATUS, 
+	TEMPORARY, 
+	LAST_ANALYZED 
+FROM DBA_TABLES 
+WHERE OWNER=UPPER('&&OWNER') 
+ORDER BY 6 ;

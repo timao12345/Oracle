@@ -1,0 +1,9 @@
+CREATE DATABASE LINK nome_do_dblink
+CONNECT TO usuario_banco_remoto IDENTIFIED BY senha 
+USING 'connect_string';
+
+CREATE PUBLIC DATABASE LINK MIGRACAO_RACPPRS
+CONNECT TO MIGRACAO IDENTIFIED BY migracao
+USING 'racpprs';
+
+

@@ -1,0 +1,1 @@
+delete archivelog all backed up 1 times to device type sbt;  

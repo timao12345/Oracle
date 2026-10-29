@@ -1,0 +1,9 @@
+grant create database link to migracao;
+
+conn migracao/migracao
+
+CREATE DATABASE LIK "SIAMIG3" CONNECT TO "MIGRACAO" IDENTIFIED BY migracao USING 'SIAMIG'
+
+COL DB_LINK FORM A30
+
+SELECT * FROM DBA_DB_LINKS WHERE OWNER='MIGRACAO';

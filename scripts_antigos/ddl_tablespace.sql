@@ -1,0 +1,7 @@
+-- BACKUP DDL TABLESPACE
+
+set long 99999999
+set lines 9999 pages 9999
+set trims on
+undef NAME_TABLESPACE
+SELECT DBMS_METADATA.GET_DDL('TABLESPACE','&&NAME_TABLESPACE') from dual;

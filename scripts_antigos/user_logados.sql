@@ -1,0 +1,1 @@
+select username, osuser, status from v$session where username is not null;

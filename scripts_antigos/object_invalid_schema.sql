@@ -1,0 +1,7 @@
+-- Verificar Objects Invalid de um SCHEMA
+
+col OBJECT_NAME for a40
+col STATUS for a10
+col OWNER for a15
+undef owner
+SELECT OWNER, OBJECT_NAME, OBJECT_TYPE, STATUS, CREATED, LAST_DDL_TIME FROM DBA_OBJECTS WHERE STATUS='INVALID' AND OWNER = upper('&&owner') order by LAST_DDL_TIME ;  

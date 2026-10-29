@@ -1,0 +1,1 @@
+SELECT DBMS_SQLTUNE.report_tuning_task('sql_tuning_qr1') AS recommendations FROM dual

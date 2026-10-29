@@ -1,0 +1,1 @@
+/u01/app/11.2.0/grid/bin/cluvfy stage -post hwos -n lasa-portaldb3,lasa-portaldb4 -verbose  

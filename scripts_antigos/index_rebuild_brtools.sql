@@ -1,0 +1,1 @@
+SELECT 'brspace -s 20 -l E -c force -f idrebuild -a rebuild -m online -s '|| TABLESPACE_NAME ||' -o ' || OWNER || ' -t "'|| TABLE_NAME || '" -i "' || INDEX_NAME || '"' FROM  DBA_INDEXES WHERE STATUS='UNUSABLE';

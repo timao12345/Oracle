@@ -1,0 +1,1 @@
+select thread#, sequence#, dest_id, first_time, name from gv$archived_log where name is not null;

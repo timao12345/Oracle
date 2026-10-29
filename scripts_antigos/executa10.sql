@@ -1,0 +1,4 @@
+@@QUERY_ANTES.sql 
+@@QUERY_DEPOIS.sql 
+@@QUERY_HOJE.sql 
+@@QUERY_DISCO.sql 

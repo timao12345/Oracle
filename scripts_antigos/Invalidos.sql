@@ -1,0 +1,47 @@
+-- Layout variables
+SET PAGESIZE 1000
+SET LINESIZE 220
+SET SERVEROUTPUT ON
+SET FEEDBACK OFF
+SET VERIFY OFF
+COLUMN OBJECT_NAME FORMAT A30
+
+-- Time right now
+COLUMN dt new_val NOW noprint
+select to_char(sysdate,'DDMMYYYY_HH24MI') dt from dual;
+
+
+-- Schema to be verified
+ACCEPT usuario PROMPT 'Schema: ';
+PROMPT
+
+-- Using the prompted schema
+
+PROMPT LISTANDO NUMERO OBJETOS INVALIDOS DO BANCO:
+PROMPT ===========================================
+PROMPT
+SELECT OBJECT_TYPE, COUNT(*) "INVALID" FROM DBA_OBJECTS WHERE STATUS='INVALID' AND OWNER='&&usuario' GROUP BY OBJECT_TYPE;
+PROMPT
+PROMPT LISTANDO A ULTIMA DATA DE ALTERACAO DE CADA OBJETO:
+PROMPT ===================================================
+SELECT OBJECT_TYPE, OBJECT_NAME, TO_CHAR(LAST_DDL_TIME,'DD/MM/YYYY HH24:MI:SS') FROM DBA_OBJECTS WHERE STATUS='INVALID' AND OWNER='&&usuario' ORDER BY OBJECT_TYPE;
+PROMPT
+PROMPT CONTAGEM TOTAL DE OBJETOS INVALIDOS:
+PROMPT ====================================
+PROMPT
+
+DECLARE
+v_total number;
+BEGIN
+SELECT COUNT(*) INTO v_total FROM DBA_OBJECTS WHERE STATUS='INVALID' AND OWNER='&&usuario';
+dbms_output.put_line('');
+IF (v_total > 0) THEN
+dbms_output.put_line('TOTAL DE OBJETOS INV�LIDOS �: ' || v_total);
+ELSE
+dbms_output.put_line('N�O H� OBJETOS INV�LIDOS');
+END IF;
+END;
+/
+PROMPT
+
+SET FEEDBACK ON

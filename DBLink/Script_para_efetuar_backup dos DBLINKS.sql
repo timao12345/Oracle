@@ -1,0 +1,7 @@
+spool 12_BACKUP_DBLINKS.SQL
+SET TRIMS ON
+SET LINES 200 PAGES 50
+SET LONG 999999999
+select 'SELECT DBMS_METADATA.GET_DDL('||'''DB_LINK'','''||OBJECT_NAME||''',''' ||OWNER||''')||CHR(10)||'';'' FROM DUAL;' from dba_objects where object_type='DATABASE LINK';
+spool off
+@12_BACKUP_DBLINKS.SQL

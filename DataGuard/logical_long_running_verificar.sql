@@ -1,0 +1,13 @@
+SELECT SAS.SERVER_ID
+          , SS.OWNER
+          , SS.OBJECT_NAME
+          , SS.STATISTIC_NAME
+          , SS.VALUE
+     FROM V$SEGMENT_STATISTICS SS
+          , V$LOCK L
+          , V$STREAMS_APPLY_SERVER SAS
+     WHERE SAS.SERVER_ID = &SLAVE_ID
+        AND L.SID = SAS.SID
+        AND L.TYPE = 'TM'
+        AND SS.OBJ# = L.ID1;
+

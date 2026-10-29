@@ -1,0 +1,11 @@
+|=================|
+|   ESTATISTICS   |
+|=================|
+
+-- Verificar data de coleta estatísticas
+
+SET LINES 900
+SELECT DISTINCT OWNER, COUNT(*), MAX(LAST_ANALYZED), MIN(LAST_ANALYZED)
+FROM DBA_TABLES
+WHERE OWNER NOT IN('WMSYS', 'EXFSYS', 'SYSTEM', 'SYSMAN', 'DBSNMP', 'SYS', 'OUTLN', 'MDSYS', 'XDB', 'TSMSYS', 'ORDSYS')
+GROUP BY OWNER;

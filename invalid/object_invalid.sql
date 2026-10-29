@@ -1,0 +1,35 @@
+-- Verifica os Objects Invalid
+
+col object_name for a50
+SELECT OWNER, OBJECT_NAME, OBJECT_TYPE, STATUS, CREATED, LAST_DDL_TIME FROM DBA_OBJECTS WHERE STATUS='INVALID' and owner='BILD';
+
+-- Recompia o objeto.
+alter view CONSINCO.DPCV_EQPOSITIVAMIX compile;
+
+alter MATERIALIZED VIEW POSEIDON.DPCM_NEXT_PRODUTOS_LITE  compile;
+
+alter PROCEDURE POSEIDON.DPCP_CM_DUPLICARMETAS    compile;
+
+col object_name for a50
+set lines 750 pages 50000
+SELECT 'alter '||OBJECT_TYPE|| ' '|| OWNER||'.'||OBJECT_NAME|| ' compile;'FROM DBA_OBJECTS WHERE STATUS='INVALID' AND OBJECT_TYPE = 'PROCEDURE';
+
+SELECT OBJECT_TYPE, COUNT(*) "INVALID" FROM DBA_OBJECTS WHERE STATUS='INVALID' GROUP BY OBJECT_TYPE;
+
+col object_name for a50
+SELECT OWNER, count(object_type) INVALID FROM dba_objects WHERE STATUS='INVALID' GROUP BY OWNER;
+
+owner for a25
+set lines 750 pages 5000
+select owner, count(object_name)QTD_OBJ from dba_objects where owner = 'MGFIN' group by owner;
+
+
+
+
+
+col object_name for a50
+SELECT OWNER, OBJECT_NAME, OBJECT_TYPE, STATUS, CREATED, LAST_DDL_TIME FROM DBA_OBJECTS where OBJECT_TYPE='INDEX';
+
+
+col object_name for a50
+SELECT OWNER, OBJECT_NAME, OBJECT_TYPE, STATUS, CREATED, LAST_DDL_TIME FROM DBA_OBJECTS where OBJECT_NAME='PROC_JOB_CUSTOBRUTO';
